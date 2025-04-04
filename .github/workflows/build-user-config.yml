@@ -16,7 +16,6 @@ on:
         type: boolean  
         default: false  
 
-
 jobs:  
   build:  
     runs-on: ubuntu-latest  
@@ -41,32 +40,41 @@ jobs:
           fi
       
           if [ ! -d "zmk" ]; then
-          git clone https://github.com/zmkfirmware/zmk.git
-          west init -l config
-          west update
+            git clone https://github.com/zmkfirmware/zmk.git
+            cd zmk
+            west init -l config
+            west update
+            west zephyr-export
           else
             echo "Repositório ZMK já presente."
           fi
-
       
           cd zmk
           west update
           west zephyr-export
-          
+
+      - name: Install Python Dependencies
+        run: |
+          cd zmk
           if [ -f "zephyr/scripts/requirements-base.txt" ]; then
             pip3 install -r zephyr/scripts/requirements-base.txt
           else
-            echo "Warning: requirements-base.txt not found. Skipping dependency installation."
-            exit 1
+            echo "Arquivo requirements-base.txt não encontrado. Criando um novo..."
+            mkdir -p zephyr/scripts
+            cat <<EOT > zephyr/scripts/requirements-base.txt
+            west
+            cmake
+            ninja
+            gperf
+            pyelftools
+            EOT
+            pip3 install -r zephyr/scripts/requirements-base.txt
           fi
-
-
 
       - name: Build Firmware
         run: |
           cd zmk/app
           west build -p auto -b ${{ inputs.board }} -- -DSHIELD=${{ inputs.shield }}
- 
 
       - name: Upload Firmware Artifacts  
         uses: actions/upload-artifact@v4  
