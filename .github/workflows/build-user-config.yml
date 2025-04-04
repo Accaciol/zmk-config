@@ -41,15 +41,19 @@ jobs:
       
           if [ ! -d "zmk" ]; then
             git clone https://github.com/zmkfirmware/zmk.git
+            if [ ! -d "zmk" ]; then
+              echo "Falha ao clonar o repositório ZMK. Abortando."
+              exit 1
+            fi
             cd zmk
             west init -l app  # Corrected to point to the 'app' directory
             west update
             west zephyr-export
           else
             echo "Repositório ZMK já presente."
+            cd zmk
           fi
       
-          cd zmk
           west update
           west zephyr-export
 
