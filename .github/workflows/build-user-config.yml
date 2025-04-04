@@ -53,11 +53,14 @@ jobs:
           echo "Verifying ZMK directory..."
           if [ -d "zmk" ]; then
             cd zmk
-            if [ -f "app/west.yml" ]; then
-              echo "west.yml encontrado no diretório zmk/app. Inicializando west..."
+            echo "Listando arquivos no diretório zmk/app para depuração:"
+            ls -l app
+            echo "Verificando caminho absoluto do arquivo west.yml:"
+            if [ -f "$(pwd)/app/west.yml" ]; then
+              echo "west.yml encontrado no caminho absoluto $(pwd)/app/west.yml. Inicializando west..."
               west init -l app
             else
-              echo "west.yml não encontrado no diretório zmk/app. Abortando."
+              echo "west.yml não encontrado no caminho absoluto $(pwd)/app/west.yml. Abortando."
               exit 1
             fi
             west update
