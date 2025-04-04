@@ -79,12 +79,12 @@ jobs:
             echo "Arquivo requirements-base.txt não encontrado. Criando um novo..."
             mkdir -p zephyr/scripts
             cat <<EOT > zephyr/scripts/requirements-base.txt
-            west
-            cmake
-            ninja
-            gperf
-            pyelftools
-            EOT
+          west
+          cmake
+          ninja
+          gperf
+          pyelftools
+          EOT
             pip3 install -r zephyr/scripts/requirements-base.txt
           fi
 
