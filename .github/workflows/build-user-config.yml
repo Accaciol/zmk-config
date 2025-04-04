@@ -52,7 +52,13 @@ jobs:
           cd zmk
           west update
           west zephyr-export
-          pip3 install -r zephyr/scripts/requirements-base.txt
+          
+          if [ -f "zephyr/scripts/requirements-base.txt" ]; then
+            pip3 install -r zephyr/scripts/requirements-base.txt
+          else
+            echo "Warning: requirements-base.txt not found. Skipping dependency installation."
+            exit 1
+          fi
 
 
 
@@ -66,4 +72,4 @@ jobs:
         uses: actions/upload-artifact@v4  
         with:  
           name: zmk-firmware  
-          path: build/zephyr/zmk.uf2  
+          path: build/zephyr/zmk.uf2
