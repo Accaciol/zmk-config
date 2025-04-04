@@ -26,6 +26,11 @@ jobs:
 
       - name: Setup ZMK Build Environment
         run: |
+          if [ ! -d "zmk" ]; then
+            west init -l config
+            west update
+          fi
+
           sudo apt update -y
           sudo apt upgrade -y
           sudo apt install -y git cmake ninja-build gperf \
