@@ -88,6 +88,14 @@ jobs:
             pip3 install -r zephyr/scripts/requirements-base.txt
           fi
 
+      - name: Validate Shield
+        run: |
+          cd zmk/app
+          if ! west list | grep -q "boards/shields/${{ inputs.shield }}"; then
+            echo "Erro: SHIELD '${{ inputs.shield }}' não é válido. Verifique o nome do shield."
+            exit 1
+          fi
+
       - name: Build Firmware
         run: |
           cd zmk/app
