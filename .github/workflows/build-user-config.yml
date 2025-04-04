@@ -30,10 +30,12 @@ jobs:
               ccache dfu-util dfu-programmer gcc \
               python3-pip python3-setuptools python3-wheel || true
           pip3 install -U west
-          west init -l config
+          west init
+          cd zmk
           west update
           west zephyr-export
           pip3 install -r zephyr/scripts/requirements.txt
+
 
       - name: Build Firmware  
         run: |  
