@@ -6,7 +6,7 @@ on:
       shield:  
         required: false  
         type: string  
-        default: lily58
+        default: lily58  # Nome do shield já configurado como padrão
       board:  
         required: false  
         type: string  
@@ -87,6 +87,11 @@ jobs:
           EOT
             pip3 install -r zephyr/scripts/requirements-base.txt
           fi
+
+      - name: List Available Shields
+        run: |
+          cd zmk/app
+          ls -1 boards/shields
 
       - name: Validate Shield
         run: |
