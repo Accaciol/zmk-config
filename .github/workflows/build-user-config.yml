@@ -22,17 +22,18 @@ jobs:
       - name: Checkout Repository  
         uses: actions/checkout@v3  
 
-      - name: Setup ZMK Build Environment  
-        run: |  
-          sudo apt update  
-          sudo apt install -y git cmake ninja-build gperf \  
-              ccache dfu-util dfu-programmer gcc \  
-              python3-pip python3-setuptools python3-wheel  
-          pip3 install -U west  
-          west init -l config  
-          west update  
-          west zephyr-export  
-          pip3 install -r zephyr/scripts/requirements.txt  
+      - name: Setup ZMK Build Environment
+        run: |
+          sudo apt update -y
+          sudo apt upgrade -y
+          sudo apt install -y git cmake ninja-build gperf \
+              ccache dfu-util dfu-programmer gcc \
+              python3-pip python3-setuptools python3-wheel || true
+          pip3 install -U west
+          west init -l config
+          west update
+          west zephyr-export
+          pip3 install -r zephyr/scripts/requirements.txt
 
       - name: Build Firmware  
         run: |  
