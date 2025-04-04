@@ -26,24 +26,30 @@ jobs:
 
       - name: Setup ZMK Build Environment
         run: |
-          if [ ! -d "zmk" ]; then
-            west init -l config
-            west update
-          fi
-
           sudo apt update -y
           sudo apt upgrade -y
           sudo apt install -y git cmake ninja-build gperf \
               ccache dfu-util dfu-programmer gcc \
-              python3-pip python3-setuptools python3-wheel || true
+              python3-pip python3-setuptools python3-wheel
+          
           pip3 install -U west
-          if [ ! -d "zephyr" ]; then
-            west init
+          export PATH="$HOME/.local/bin:$PATH"
+      
+          if ! command -v west &> /dev/null; then
+            echo "West não encontrado após a instalação. Abortando."
+            exit 1
           fi
+      
+          if [ ! -d "zmk" ]; then
+            west init -l config
+            west update
+          fi
+      
           cd zmk
           west update
           west zephyr-export
           pip3 install -r zephyr/scripts/requirements.txt
+
 
 
       - name: Build Firmware
