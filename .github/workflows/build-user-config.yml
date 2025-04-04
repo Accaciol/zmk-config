@@ -4,8 +4,9 @@ on:
   workflow_call:  
     inputs:  
       shield:  
-        required: true  
+        required: false  
         type: string  
+        default: lily58
       board:  
         required: false  
         type: string  
@@ -14,6 +15,7 @@ on:
         required: false  
         type: boolean  
         default: false  
+
 
 jobs:  
   build:  
@@ -30,7 +32,9 @@ jobs:
               ccache dfu-util dfu-programmer gcc \
               python3-pip python3-setuptools python3-wheel || true
           pip3 install -U west
-          west init
+          if [ ! -d "zephyr" ]; then
+            west init
+          fi
           cd zmk
           west update
           west zephyr-export
