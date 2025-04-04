@@ -10,7 +10,7 @@ on:
       board:  
         required: false  
         type: string  
-        default: nice_nano_v2  
+        default: nrf52840dk_nrf52840  
       debug:  
         required: false  
         type: boolean  
