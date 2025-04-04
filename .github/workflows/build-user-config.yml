@@ -42,7 +42,7 @@ jobs:
           if [ ! -d "zmk" ]; then
             git clone https://github.com/zmkfirmware/zmk.git
             cd zmk
-            west init -l config
+            west init -l app  # Corrected to point to the 'app' directory
             west update
             west zephyr-export
           else
