@@ -52,7 +52,7 @@ jobs:
           cd zmk
           west update
           west zephyr-export
-          pip3 install -r zephyr/scripts/requirements.txt
+          pip3 install -r zephyr/scripts/requirements-base.txt
 
 
 
