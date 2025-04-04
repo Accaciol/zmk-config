@@ -1,6 +1,16 @@
 name: Build ZMK firmware
+
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Debug Build.yaml
+        run: cat build.yaml
+
+      - name: Run ZMK Build
+        uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
