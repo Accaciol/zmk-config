@@ -59,8 +59,11 @@ jobs:
             elif [ -f "config/west.yml" ]; then
               echo "west.yml encontrado no diretório zmk/config. Inicializando west..."
               west init -l config
+            elif [ -f "west.yml" ]; then
+              echo "west.yml encontrado no diretório raiz zmk. Inicializando west..."
+              west init -l .
             else
-              echo "west.yml não encontrado em zmk/app ou zmk/config. Abortando."
+              echo "west.yml não encontrado em zmk/app, zmk/config ou no diretório raiz. Abortando."
               exit 1
             fi
             west update
