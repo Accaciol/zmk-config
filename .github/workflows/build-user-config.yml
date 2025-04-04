@@ -54,21 +54,18 @@ jobs:
           if [ -d "zmk" ]; then
             cd zmk
             if [ -f "app/west.yml" ]; then
-              echo "west.yml encontrado no diretório app. Inicializando west..."
+              echo "west.yml encontrado no diretório zmk/app. Inicializando west..."
               west init -l app
               west update
               west zephyr-export
             else
-              echo "west.yml não encontrado no diretório app. Abortando."
+              echo "west.yml não encontrado no diretório zmk/app. Abortando."
               exit 1
             fi
           else
             echo "Diretório ZMK não encontrado após o clone. Abortando."
             exit 1
           fi
-      
-          west update
-          west zephyr-export
 
       - name: Install Python Dependencies
         run: |
