@@ -41,11 +41,30 @@ jobs:
       
           echo "Inicializando o repositório ZMK como subprojeto..."
           west init -l .
+          if [ ! -f "west.yml" ]; then
+            echo "Erro: Arquivo west.yml não encontrado no diretório raiz. Verifique se ele existe e está correto."
+            exit 1
+          fi
+
+          echo "Validando o arquivo west.yml..."
+          if ! grep -q "manifest:" west.yml; then
+            echo "Erro: O arquivo west.yml parece inválido. Verifique seu conteúdo."
+            cat west.yml
+            exit 1
+          fi
+
           west update
 
           echo "Verificando se o diretório 'zmk' foi criado após o west update..."
           if [ ! -d "zmk" ]; then
-            echo "Erro: O diretório 'zmk' não foi criado após o west update. Tentando recriar..."
+            echo "Erro: O diretório 'zmk' não foi criado após o west update. Depurando o problema..."
+            echo "Conteúdo do arquivo west.yml:"
+            cat west.yml || echo "Arquivo west.yml não encontrado."
+
+            echo "Verificando o estado do repositório git:"
+            git status
+
+            echo "Tentando recriar o diretório 'zmk'..."
             west update
             if [ ! -d "zmk" ]; then
               echo "Erro crítico: O diretório 'zmk' ainda não foi criado após a tentativa de recriação. Verifique o arquivo west.yml."
