@@ -4,7 +4,10 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
-    with:
-      config: build.yaml
-      name: accaciol-zmk-config
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run ZMK Build
+        uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
