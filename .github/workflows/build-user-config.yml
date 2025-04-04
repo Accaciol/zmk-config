@@ -115,13 +115,3 @@ jobs:
         with:  
           name: zmk-firmware  
           path: build/zephyr/zmk.uf2
-
-# filepath: c:\Users\lucas\Documents\lily-git\zmk-config\west.yml
-manifest:
-  projects:
-    - name: zmk
-      url: https://github.com/zmkfirmware/zmk.git
-      revision: main
-      path: zmk
-  self:
-    path: .
