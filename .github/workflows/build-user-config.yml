@@ -50,6 +50,9 @@ jobs:
             echo "Repositório ZMK já presente."
           fi
 
+          echo "Verificando o conteúdo do diretório zmk para depuração:"
+          ls -l zmk
+
           echo "Verifying ZMK directory..."
           if [ -d "zmk" ]; then
             cd zmk
