@@ -1,0 +1,13 @@
+west>=0.11.0
+pyelftools
+pykwalify
+intelhex
+canopen
+cryptography
+kconfiglib
+anytree
+colorama
+pyserial
+pyyaml
+packaging
+gitpython
