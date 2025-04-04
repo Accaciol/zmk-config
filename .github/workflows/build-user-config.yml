@@ -64,6 +64,7 @@ jobs:
               west init -l .
             else
               echo "west.yml não encontrado em zmk/app, zmk/config ou no diretório raiz. Abortando."
+              echo "Certifique-se de que o arquivo west.yml está no local correto."
               exit 1
             fi
             west update
