@@ -41,9 +41,13 @@ jobs:
           fi
       
           if [ ! -d "zmk" ]; then
-            west init -l config
-            west update
+          git clone https://github.com/zmkfirmware/zmk.git
+          west init -l config
+          west update
+          else
+            echo "Repositório ZMK já presente."
           fi
+
       
           cd zmk
           west update
