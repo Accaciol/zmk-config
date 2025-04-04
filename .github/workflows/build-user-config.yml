@@ -1,0 +1,45 @@
+name: ZMK User Config Build
+
+on:
+  workflow_call:
+    inputs:
+      shield:
+        required: true
+        type: string
+      board:
+        required: false
+        type: string
+        default: nice_nano_v2
+      debug:
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup ZMK Build Environment
+        run: |
+          sudo apt update
+          sudo apt install -y git cmake ninja-build gperf \
+              ccache dfu-util dfu-programmer gcc \
+              python3-pip python3-setuptools python3-wheel
+          pip3 install -U west
+          west init -l config
+          west update
+          west zephyr-export
+          pip3 install -r zephyr/scripts/requirements.txt
+
+      - name: Build Firmware
+        run: |
+          west build -p auto -b ${{ inputs.board }} -- -DSHIELD=${{ inputs.shield }}
+
+      - name: Upload Firmware Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: zmk-firmware
+          path: build/zephyr/zmk.uf2
