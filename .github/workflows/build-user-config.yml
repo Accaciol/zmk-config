@@ -37,9 +37,11 @@ jobs:
           pip3 install -r zephyr/scripts/requirements.txt
 
 
-      - name: Build Firmware  
-        run: |  
-          west build -p auto -b ${{ inputs.board }} -- -DSHIELD=${{ inputs.shield }}  
+      - name: Build Firmware
+        run: |
+          cd zmk/app
+          west build -p auto -b ${{ inputs.board }} -- -DSHIELD=${{ inputs.shield }}
+ 
 
       - name: Upload Firmware Artifacts  
         uses: actions/upload-artifact@v4  
