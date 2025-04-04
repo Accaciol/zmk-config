@@ -40,14 +40,12 @@ jobs:
           fi
       
           if [ ! -d "zmk" ]; then
-            echo "Cloning ZMK repository..."
-            git clone https://github.com/zmkfirmware/zmk.git
-            if [ ! -d "zmk" ]; then
-              echo "Falha ao clonar o repositório ZMK. Abortando."
-              exit 1
-            fi
+            echo "Inicializando o repositório ZMK como subprojeto..."
+            west init -l .
+            west update
           else
-            echo "Repositório ZMK já presente."
+            echo "Repositório ZMK já presente. Atualizando dependências..."
+            west update
           fi
 
           echo "Verificando o conteúdo do diretório zmk para depuração:"
@@ -117,3 +115,13 @@ jobs:
         with:  
           name: zmk-firmware  
           path: build/zephyr/zmk.uf2
+
+# filepath: c:\Users\lucas\Documents\lily-git\zmk-config\west.yml
+manifest:
+  projects:
+    - name: zmk
+      url: https://github.com/zmkfirmware/zmk.git
+      revision: main
+      path: zmk
+  self:
+    path: .
