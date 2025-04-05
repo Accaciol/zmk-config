@@ -26,10 +26,10 @@ jobs:
       - name: Setup ZMK Build Environment
         run: |
           sudo apt update -y
-          sudo apt upgrade -y
           sudo apt install -y git cmake ninja-build gperf \
               ccache dfu-util dfu-programmer gcc \
-              python3-pip python3-setuptools python3-wheel
+              python3-pip python3-setuptools python3-wheel \
+              unzip wget
           
           pip3 install -U west
           export PATH="$HOME/.local/bin:$PATH"
@@ -40,11 +40,11 @@ jobs:
           fi
       
           echo "Inicializando o repositório ZMK como subprojeto..."
-          west init -l .
           if [ ! -f "west.yml" ]; then
-            echo "Erro: Arquivo west.yml não encontrado no diretório raiz. Verifique se ele existe e está correto."
+            echo "Erro: Arquivo west.yml não encontrado no diretório raiz. Certifique-se de que ele existe e está correto."
             exit 1
           fi
+          west init -l .
 
           echo "Validando o arquivo west.yml..."
           if ! grep -q "manifest:" west.yml; then
@@ -65,9 +65,10 @@ jobs:
             git status
 
             echo "Tentando recriar o diretório 'zmk'..."
+            rm -rf zmk
             west update
             if [ ! -d "zmk" ]; then
-              echo "Erro crítico: O diretório 'zmk' ainda não foi criado após a tentativa de recriação. Verifique o arquivo west.yml."
+              echo "Erro crítico: O diretório 'zmk' ainda não foi criado após a tentativa de recriação. Verifique o arquivo west.yml e as permissões do sistema."
               exit 1
             fi
           fi
