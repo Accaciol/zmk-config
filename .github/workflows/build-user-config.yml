@@ -37,7 +37,12 @@ jobs:
           if ! command -v west &> /dev/null; then
             echo "West não encontrado após a instalação. Abortando."
             exit 1
-          fi
+            fi
+            echo "Cloning ZMK repository..."
+            git clone https://github.com/zmkfirmware/zmk.git zmk || {
+            echo "Erro: Falha ao clonar o repositório ZMK. Verifique a conectividade de rede e as permissões."
+            exit 1
+            }
       
           echo "Inicializando o repositório ZMK como subprojeto..."
           if [ ! -f "west.yml" ]; then
